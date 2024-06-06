@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CustomTextFieldWidget extends StatelessWidget {
   final String label;
   final FormFieldValidator<String>? validator;
-
+ final TextInputType? textInputType;
   final TextEditingController? controller;
   final int? maxLines;
   const CustomTextFieldWidget({
@@ -11,7 +11,7 @@ class CustomTextFieldWidget extends StatelessWidget {
     required this.label,
     this.controller,
     this.validator,
-    this.maxLines,
+    this.maxLines, this.textInputType,
   });
 
   @override
@@ -19,6 +19,7 @@ class CustomTextFieldWidget extends StatelessWidget {
     return TextFormField(
       controller: controller,
       validator: validator,
+      keyboardType: textInputType,
       decoration: InputDecoration(
         enabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(

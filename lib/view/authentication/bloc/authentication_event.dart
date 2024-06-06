@@ -12,7 +12,9 @@ final class UserLoginEvent extends AuthenticationEvent {
     required this.password,
   });
 }
+class UserIsLoggedInEvent extends AuthenticationEvent {}
 
+class UserLogOutEvent extends AuthenticationEvent {}
 final class UserSignUpEvent extends AuthenticationEvent {
   final String firstName;
   final String lastName;

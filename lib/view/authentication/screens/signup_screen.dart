@@ -3,16 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shreeiraeducation/utils/size/constant_height/constant_height.dart';
 import 'package:shreeiraeducation/utils/snack_bar/snackbar.dart';
 import 'package:shreeiraeducation/view/authentication/bloc/authentication_bloc.dart';
-import 'package:shreeiraeducation/view/authentication/screens/signup_screen.dart';
+import 'package:shreeiraeducation/view/authentication/screens/login_screen.dart';
 import 'package:shreeiraeducation/view/authentication/widgets/custom_textfield_widget.dart';
-import 'package:shreeiraeducation/view/home/screens/home_screen.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class SignUpScreen extends StatelessWidget {
+  const SignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     TextEditingController emailController = TextEditingController();
+    TextEditingController fullNameController = TextEditingController();
+    TextEditingController cPasswordController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
     final GlobalKey<FormState> loginKey = GlobalKey<FormState>();
     return SafeArea(
@@ -55,6 +56,18 @@ class LoginScreen extends StatelessWidget {
               ),
               const KHeight(size: 0.04),
               CustomTextFieldWidget(
+                controller: fullNameController,
+                label: "Full Name *",
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return "Enter Valid Name";
+                  } else {
+                    return null;
+                  }
+                },
+              ),
+              const KHeight(size: 0.02),
+              CustomTextFieldWidget(
                 controller: emailController,
                 label: "Email address *",
                 validator: (value) {
@@ -68,31 +81,59 @@ class LoginScreen extends StatelessWidget {
                 },
               ),
               const KHeight(size: 0.02),
-              CustomTextFieldWidget(
-                controller: passwordController,
-                label: "Password *",
-                validator: (value) {
-                  if (value!.length < 6) {
-                    return "Password must be more than 6 digit";
-                  } else {
-                    return null;
-                  }
-                },
+              Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 5.0),
+                      child: CustomTextFieldWidget(
+                        controller: passwordController,
+                        label: "Password *",
+                        validator: (value) {
+                          if (value!.length < 6) {
+                            return "Password must be more than 6 digit";
+                          } else {
+                            return null;
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 5.0),
+                      child: CustomTextFieldWidget(
+                        controller: cPasswordController,
+                        label: "Re Password *",
+                        validator: (value) {
+                          if (value!.length < 6 ||
+                              value != passwordController.text) {
+                            return "Password and RePassword not equal";
+                          } else {
+                            return null;
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
               const KHeight(size: 0.04),
               SizedBox(
                 width: double.infinity,
                 child: BlocConsumer<AuthenticationBloc, AuthenticationState>(
                   listener: (context, state) {
-                    if (state is UserLogginSuccessState) {
+                    if (state is UserSignUpSuccessState) {
+                      CSnackBar.showSnackBar(
+                          context, "Account Created please Login");
                       Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
-                          builder: (context) => const HomeScreen(),
+                          builder: (context) => const LoginScreen(),
                         ),
                         (Route<dynamic> route) => false,
                       );
                     }
-                    if (state is UserLogginFailedState) {
+                    if (state is UserSignUpFailedState) {
                       CSnackBar.showErrorSnackBar(context, state.errorMsg);
                     }
                   },
@@ -107,8 +148,16 @@ class LoginScreen extends StatelessWidget {
                     return ElevatedButton(
                       onPressed: () async {
                         if (loginKey.currentState!.validate()) {
+                          var parts = fullNameController.text.split(' ');
+                          var fname = parts[0].trim(); // prefix: "date"
+                          var lname = parts.sublist(1).join(' ').trim();
+                          if (lname == '') {
+                            lname = fname;
+                          }
                           context.read<AuthenticationBloc>().add(
-                                UserLoginEvent(
+                                UserSignUpEvent(
+                                  firstName: fname,
+                                  lastName: lname,
                                   email: emailController.text.trim(),
                                   password: passwordController.text.trim(),
                                 ),
@@ -124,7 +173,7 @@ class LoginScreen extends StatelessWidget {
                         foregroundColor:
                             WidgetStateProperty.all<Color>(Colors.white),
                       ),
-                      child: const Text('Sign in'),
+                      child: const Text('Sign Up'),
                     );
                   },
                 ),
@@ -141,13 +190,10 @@ class LoginScreen extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => const SignUpScreen()),
-                      );
+                      Navigator.pop(context);
                     },
                     child: const Text(
-                      "Sign Up now",
+                      "Login now",
                       style: TextStyle(
                           color: Colors.red, fontWeight: FontWeight.bold),
                     ),
