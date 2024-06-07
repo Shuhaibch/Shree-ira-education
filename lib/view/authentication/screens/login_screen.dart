@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shreeiraeducation/init_depentancies.dart';
 import 'package:shreeiraeducation/utils/size/constant_height/constant_height.dart';
 import 'package:shreeiraeducation/utils/snack_bar/snackbar.dart';
 import 'package:shreeiraeducation/view/authentication/bloc/authentication_bloc.dart';
@@ -88,22 +87,11 @@ class LoginScreen extends StatelessWidget {
                 child: BlocConsumer<AuthenticationBloc, AuthenticationState>(
                   listener: (context, state) {
                     if (state is UserLogginSuccessState) {
+                      context.read<UserBloc>().add(GetUserDetailsEvent());
+                      context.read<CategoryBloc>().add(GetAllCategorieEvent());
                       Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
-                          builder: (context) => MultiBlocProvider(
-                            providers: [
-                              BlocProvider(
-                                create: (context) => serviceLocator<UserBloc>()
-                                  ..add(GetUserDetailsEvent()),
-                              ),
-                              BlocProvider(
-                                create: (context) =>
-                                    serviceLocator<CategoryBloc>()
-                                      ..add(GetAllCategorieEvent()),
-                              ),
-                            ],
-                            child: const HomeScreen(),
-                          ),
+                          builder: (context) => const HomeScreen(),
                         ),
                         (Route<dynamic> route) => false,
                       );

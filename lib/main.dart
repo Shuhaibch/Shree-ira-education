@@ -19,16 +19,16 @@ Future<void> main() async {
         BlocProvider(
           create: (context) => serviceLocator<AuthenticationBloc>(),
         ),
-
-        // BlocProvider(
-        //   create: (context) => serviceLocator<UserBloc>()..add(GetUserDetailsEvent()),
-        // ),
+        
+        BlocProvider(
+          create: (context) => serviceLocator<UserBloc>()..add(GetUserDetailsEvent()),
+        ),
         BlocProvider(
           create: (context) => serviceLocator<EditUserBloc>(),
         ),
-        // BlocProvider(
-        //   create: (context) => serviceLocator<CategoryBloc>()..add(GetAllCategorieEvent()),
-        // ),
+        BlocProvider(
+          create: (context) => serviceLocator<CategoryBloc>()..add(GetAllCategorieEvent()),
+        ),
       ],
       child: BlocProvider(
         create: (context) =>
@@ -54,20 +54,10 @@ class MyApp extends StatelessWidget {
       home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: (context, state) {
           if (state is UserIsLoggedInState) {
-            return MultiBlocProvider(
-              providers: [
-                BlocProvider(
-                  create: (context) =>
-                      serviceLocator<UserBloc>()..add(GetUserDetailsEvent()),
-                ),
-                BlocProvider(
-                  create: (context) => serviceLocator<CategoryBloc>()
-                    ..add(GetAllCategorieEvent()),
-                ),
-              ],
-              child: const HomeScreen(),
-            );
+            
+            return const HomeScreen();
           } else if (state is UserIsLoggedInFailedState) {
+
             return const LoginScreen();
           }
           // if (state is UserIsLoggedInLoadingState) {
