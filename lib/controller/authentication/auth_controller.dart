@@ -16,8 +16,6 @@ class AuthController {
     required String email,
     required String password,
   }) async {
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // final token = prefs.getString('token');
     try {
       final response = await http.post(Uri.parse(logInUrl),
           headers: {
@@ -61,10 +59,7 @@ class AuthController {
     required String lastName,
   }) async {
     try {
-      print(firstName);
-      print(lastName);
-      print(password);
-      print(email);
+      
       final response = await http.post(
         Uri.parse(signUpUrl),
         headers: {

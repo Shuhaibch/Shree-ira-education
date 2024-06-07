@@ -11,9 +11,6 @@ class CategoryController {
   final String getSubCategoriesUrl =
       "http://axnoldigitalsolutions.in/Training/api/sub-category";
 
-
-
-
   //* Signin
   Future<Map<String, dynamic>> getAllCategories() async {
     try {
@@ -27,9 +24,10 @@ class CategoryController {
         },
       );
       log(response.statusCode.toString());
-      if (response.statusCode == 200||response.statusCode == 201) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         log(response.body.toString());
-        final CategoriesRespModel categoryResp = CategoriesRespModel.fromJson(jsonDecode(response.body));
+        final CategoriesRespModel categoryResp =
+            CategoriesRespModel.fromJson(jsonDecode(response.body));
 
         return {
           'response': 'success',
@@ -49,6 +47,7 @@ class CategoryController {
       };
     }
   }
+
   Future<Map<String, dynamic>> getSubCategories() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -61,9 +60,10 @@ class CategoryController {
         },
       );
       log(response.statusCode.toString());
-      if (response.statusCode == 200||response.statusCode == 201) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         log(response.body.toString());
-        final SubCategoriesRespModel categoryResp = SubCategoriesRespModel.fromJson(jsonDecode(response.body));
+        final SubCategoriesRespModel categoryResp =
+            SubCategoriesRespModel.fromJson(jsonDecode(response.body));
 
         return {
           'response': 'success',
@@ -85,5 +85,4 @@ class CategoryController {
   }
 
   //*************************************************************************************** */
-
 }
