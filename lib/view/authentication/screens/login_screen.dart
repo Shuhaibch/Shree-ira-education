@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shreeiraeducation/init_depentancies.dart';
 import 'package:shreeiraeducation/utils/size/constant_height/constant_height.dart';
 import 'package:shreeiraeducation/utils/snack_bar/snackbar.dart';
 import 'package:shreeiraeducation/view/authentication/bloc/authentication_bloc.dart';
 import 'package:shreeiraeducation/view/authentication/screens/signup_screen.dart';
 import 'package:shreeiraeducation/view/authentication/widgets/custom_textfield_widget.dart';
+import 'package:shreeiraeducation/view/home/bloc/category_bloc/category_bloc.dart';
 import 'package:shreeiraeducation/view/home/screens/home_screen.dart';
+import 'package:shreeiraeducation/view/home/widgets/drawer/bloc/user/user_bloc.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -87,7 +90,20 @@ class LoginScreen extends StatelessWidget {
                     if (state is UserLogginSuccessState) {
                       Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
-                          builder: (context) => const HomeScreen(),
+                          builder: (context) => MultiBlocProvider(
+                            providers: [
+                              BlocProvider(
+                                create: (context) => serviceLocator<UserBloc>()
+                                  ..add(GetUserDetailsEvent()),
+                              ),
+                              BlocProvider(
+                                create: (context) =>
+                                    serviceLocator<CategoryBloc>()
+                                      ..add(GetAllCategorieEvent()),
+                              ),
+                            ],
+                            child: const HomeScreen(),
+                          ),
                         ),
                         (Route<dynamic> route) => false,
                       );

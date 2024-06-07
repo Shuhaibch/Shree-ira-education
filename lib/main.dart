@@ -5,6 +5,7 @@ import 'package:shreeiraeducation/simple_bloc_observer.dart';
 import 'package:shreeiraeducation/view/authentication/bloc/authentication_bloc.dart';
 import 'package:shreeiraeducation/view/authentication/screens/login_screen.dart';
 import 'package:shreeiraeducation/view/edit_profile/bloc/bloc/edit_user_bloc.dart';
+import 'package:shreeiraeducation/view/home/bloc/category_bloc/category_bloc.dart';
 import 'package:shreeiraeducation/view/home/widgets/drawer/bloc/user/user_bloc.dart';
 import 'package:shreeiraeducation/view/home/screens/home_screen.dart';
 
@@ -18,12 +19,16 @@ Future<void> main() async {
         BlocProvider(
           create: (context) => serviceLocator<AuthenticationBloc>(),
         ),
-        BlocProvider(
-          create: (context) => serviceLocator<UserBloc>(),
-        ),
+
+        // BlocProvider(
+        //   create: (context) => serviceLocator<UserBloc>()..add(GetUserDetailsEvent()),
+        // ),
         BlocProvider(
           create: (context) => serviceLocator<EditUserBloc>(),
         ),
+        // BlocProvider(
+        //   create: (context) => serviceLocator<CategoryBloc>()..add(GetAllCategorieEvent()),
+        // ),
       ],
       child: BlocProvider(
         create: (context) =>
@@ -49,7 +54,19 @@ class MyApp extends StatelessWidget {
       home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: (context, state) {
           if (state is UserIsLoggedInState) {
-            return const HomeScreen();
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) =>
+                      serviceLocator<UserBloc>()..add(GetUserDetailsEvent()),
+                ),
+                BlocProvider(
+                  create: (context) => serviceLocator<CategoryBloc>()
+                    ..add(GetAllCategorieEvent()),
+                ),
+              ],
+              child: const HomeScreen(),
+            );
           } else if (state is UserIsLoggedInFailedState) {
             return const LoginScreen();
           }

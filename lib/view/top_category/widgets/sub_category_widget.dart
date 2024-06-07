@@ -1,71 +1,48 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:shreeiraeducation/models/categories/sub_category_model.dart';
 import 'package:shreeiraeducation/utils/size/constant_height/constant_height.dart';
 import 'package:shreeiraeducation/utils/text/custom_text.dart';
 
 class SubCategoryWidget extends StatelessWidget {
   const SubCategoryWidget({
     super.key,
+    required this.subCategory,
   });
+  final List<SubCategory> subCategory;
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          CustomText(
-            text: "Select Subcategories",
-            fontWeight: FontWeight.w600,
-            fontSize: 22,
-          ),
-          KHeight(size: 0.02),
-          CustomText(
-            text: "Architecture (120)",
-            fontWeight: FontWeight.w600,
-            fontSize: 19,
-          ),
-          KHeight(size: 0.02),
-          CustomText(
-            text: "Art History (53)",
-            fontWeight: FontWeight.w600,
-            fontSize: 19,
-          ),
-          KHeight(size: 0.02),
-          CustomText(
-            text: "Design (174)",
-            fontWeight: FontWeight.w600,
-            fontSize: 19,
-          ),
-          KHeight(size: 0.02),
-          CustomText(
-            text: "Fashion Design (103)",
-            fontWeight: FontWeight.w600,
-            fontSize: 19,
-          ),
-          KHeight(size: 0.02),
-          CustomText(
-            text: "Film, Photography & Media (97)",
-            fontWeight: FontWeight.w600,
-            fontSize: 19,
-          ),
-          KHeight(size: 0.02),
-          CustomText(
-            text: "Graphic Design (77)",
-            fontWeight: FontWeight.w600,
-            fontSize: 19,
-          ),
-          KHeight(size: 0.02),
-          CustomText(
-            text: "Industrial Design (25)",
-            fontWeight: FontWeight.w600,
-            fontSize: 19,
-          ),
-          KHeight(size: 0.02),
-          CustomText(
-            text: "Interior Design (18)",
-            fontWeight: FontWeight.w600,
-            fontSize: 19,
-          ),
-          KHeight(size: 0.02),
-        ]));
+    log(subCategory.length.toString());
+
+    return subCategory.isEmpty
+        ? const Center(
+            child: Text('No SubCategories'),
+          )
+        : Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListView.separated(
+              separatorBuilder: (context, index) => const KHeight(size: .01),
+              itemCount: subCategory.length,
+              itemBuilder: (context, index) => Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomText(
+                    text: subCategory[index].title,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 19,
+                  ),
+                  CustomText(
+                    text: ' (${subCategory[index].coursesCount})',
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey,
+                    fontSize: 19,
+                  ),
+                ],
+              ),
+            ),
+          );
   }
 }

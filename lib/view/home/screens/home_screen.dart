@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shreeiraeducation/commen/widget/layout/grid_layout.dart';
+import 'package:shreeiraeducation/commen/widget/shimmer/top_categories_loader_gridwidgett.dart';
+import 'package:shreeiraeducation/models/categories/categories_model.dart';
+import 'package:shreeiraeducation/models/categories/sub_category_model.dart';
 import 'package:shreeiraeducation/utils/colors/colors.dart';
 import 'package:shreeiraeducation/utils/helper/grid_view.dart';
 import 'package:shreeiraeducation/utils/size/constant_height/constant_height.dart';
 import 'package:shreeiraeducation/utils/text/custom_text.dart';
+import 'package:shreeiraeducation/view/home/bloc/category_bloc/category_bloc.dart';
 import 'package:shreeiraeducation/view/home/widgets/outgoing_course_card_widget.dart';
 import 'package:shreeiraeducation/view/home/widgets/search_widget.dart';
-import 'package:shreeiraeducation/view/top_category/screens/design_screen.dart';
+import 'package:shreeiraeducation/view/home/widgets/top_category_widget.dart';
+import 'package:shreeiraeducation/view/top_category/screens/top_category_screen.dart';
 import 'package:shreeiraeducation/view/home/widgets/drawer/drawer_widget.dart';
 import 'package:shreeiraeducation/view/notification/screens/notification_screen.dart';
 
@@ -13,6 +20,7 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({
     super.key,
   });
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -103,83 +111,39 @@ class HomeScreen extends StatelessWidget {
                       const KHeight(size: 0.04),
                       const OutGoingCourseCardWidget(),
                       const KHeight(size: 0.02),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 12, right: 12, bottom: 12),
-                        child: GridView.count(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          crossAxisCount: 2,
-                          childAspectRatio: 1.85,
-                          crossAxisSpacing: 14,
-                          mainAxisSpacing: 18,
-                          children: List.generate(
-                            choices.length,
-                            (index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  navigateToScreen(context, choices[index]);
+
+                      //* Top Categories
+
+                      BlocConsumer<CategoryBloc, CategoryState>(
+                        listener: (context, state) {
+                          // TODO: implement listener
+                        },
+                        builder: (context, state) {
+                          if (state is GetCategoriesLoadingState) {
+                            return const CTopCategoryLoaderGridWidget();
+                          }
+                          if (state is GetCategoriesSuccessState) {
+                            return Padding(
+                              padding: const EdgeInsets.only(
+                                left: 12,
+                                right: 12,
+                                bottom: 12,
+                              ),
+                              child: CGridLayout(
+                                itemCount: state.categoryAndSubCategoryList.length,
+                                mainAxisExtent: 90,
+                                itemBuilder: (_, index) {
+                                 
+                                  return TopCategoryWidget(
+                                    category:  state.categoryAndSubCategoryList[index],
+                                  );
                                 },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(14.0),
-                                      border: Border.all(
-                                        color: Colors.grey,
-                                        width: 1.0,
-                                      )),
-                                  child: Stack(
-                                    fit: StackFit.expand,
-                                    children: [
-                                      Stack(
-                                        fit: StackFit.expand,
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(14.0),
-                                            child: Image.asset(
-                                              "assets/images/grid.png",
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                          Positioned.fill(
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(14.0),
-                                                color: Colors.black.withOpacity(
-                                                    0.5), // Adjust opacity as needed
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      Positioned(
-                                        top: 40,
-                                        left: 20,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            CustomText(
-                                              text: choices[index].title,
-                                              color: Colors.white,
-                                            ),
-                                            CustomText(
-                                              text: choices[index].courses,
-                                              fontSize: 12,
-                                              color: Colors.white,
-                                            )
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      )
+                              ),
+                            );
+                          }
+                          return const SizedBox();
+                        },
+                      ),
                     ],
                   ),
                   const SearchWidget()
@@ -192,17 +156,38 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  void navigateToScreen(BuildContext context, Choice choice) {
-    switch (choice.title) {
-      case 'Design':
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const TopCategoryScreen()),
-        );
-        break;
+  // void navigateToScreen(BuildContext context, Choice choice) {
+  //   switch (choice.title) {
+  //     case 'Design':
+  //       Navigator.push(
+  //         context,
+  //         MaterialPageRoute(builder: (context) => const TopCategoryScreen()),
+  //       );
+  //       break;
 
-      default:
-        break;
-    }
-  }
+  //     default:
+  //       break;
+  //   }
+  // }
 }
+
+
+ // GridView.count(
+                          //   shrinkWrap: true,
+                          //   physics: const NeverScrollableScrollPhysics(),
+                          //   crossAxisCount: 2,
+                          //   childAspectRatio: 1.85,
+                          //   crossAxisSpacing: 14,
+                          //   mainAxisSpacing: 18,
+                          //   children: List.generate(
+                          //     choices.length,
+                          //     (index) {
+                          //       return GestureDetector(
+                          //         onTap: () {
+                          //           navigateToScreen(context, choices[index]);
+                          //         },
+                          //         child: HomeGridContainerWidgeet(),
+                          //       );
+                          //     },
+                          //   ),
+                          // ),
