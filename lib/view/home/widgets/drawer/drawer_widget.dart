@@ -22,9 +22,9 @@ class DrawerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      BlocProvider.of<UserBloc>(context).add(GetUserDetailsEvent());
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   BlocProvider.of<UserBloc>(context).add(GetUserDetailsEvent());
+    // });
     return Drawer(
       surfaceTintColor: whiteColor,
       child: ListView(

@@ -10,6 +10,7 @@ import 'package:shreeiraeducation/utils/text/custom_text.dart';
 import 'package:shreeiraeducation/view/authentication/widgets/custom_textfield_widget.dart';
 import 'package:shreeiraeducation/view/edit_profile/bloc/bloc/edit_user_bloc.dart';
 import 'package:shreeiraeducation/view/home/screens/home_screen.dart';
+import 'package:shreeiraeducation/view/home/widgets/drawer/bloc/user/user_bloc.dart';
 
 import '../../../models/user/user_model.dart';
 
@@ -234,6 +235,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     context, state.errorMsg);
                               }
                               if (state is UpdateUserDetailsSuccessState) {
+                                BlocProvider.of<UserBloc>(context)
+                                    .add(GetUserDetailsEvent());
+
                                 CSnackBar.showSnackBar(
                                     context, 'Profile Updated Successfully');
                                 Navigator.pushReplacement(
