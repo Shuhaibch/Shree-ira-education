@@ -22,26 +22,32 @@ class QuestionAnswerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListView.builder(
-            itemCount: titles.length,
-            itemBuilder: (context, index) {
-              return Card(
-                  shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
-                  elevation: 2,
-                  child: ExpansionTile(
-                      title: CustomText(
-                        text: titles[index],
-                        color: blackColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      children: [
-                        Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: CustomText(
-                              text: descriptions[index],
-                            ))
-                      ]));
-            }));
+      padding: const EdgeInsets.all(8.0),
+      child: ListView.builder(
+        itemCount: titles.length,
+        itemBuilder: (context, index) {
+          return Card(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(12))),
+            elevation: 2,
+            child: ExpansionTile(
+              title: CustomText(
+                text: titles[index],
+                color: blackColor,
+                fontWeight: FontWeight.bold,
+              ),
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CustomText(
+                    text: descriptions[index],
+                  ),
+                )
+              ],
+            ),
+          );
+        },
+      ),
+    );
   }
 }

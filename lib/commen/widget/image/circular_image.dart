@@ -48,8 +48,11 @@ class CRoundedImage extends StatelessWidget {
                   fit: fit,
                   progressIndicatorBuilder: (context, url, progress) =>
                       CShimmerEffect(
-                          width: width ?? double.infinity,
-                          height: height ?? 158),
+                    baseColor: Colors.grey[300]!,
+                    highlightColor: Colors.grey[100]!,
+                    width: width ?? double.infinity,
+                    height: height ?? 158,
+                  ),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 )
               : Image(

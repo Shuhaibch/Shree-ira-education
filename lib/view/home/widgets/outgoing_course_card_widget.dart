@@ -25,7 +25,10 @@ class OutGoingCourseCardWidget extends StatelessWidget {
             InkWell(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => OutgoingCourseScreen(),
+                    builder: (context) => OutgoingCourseScreen(
+                      category: null,
+                      subCategory: null,
+                    ),
                   ));
                 },
                 child: const CustomText(
@@ -52,29 +55,34 @@ class OutGoingCourseCardWidget extends StatelessWidget {
                     )),
                 Padding(
                     padding: const EdgeInsets.all(6.0),
-                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      SizedBox(
-                        width: size.width * 0.58,
-                        child: const CustomText(
-                          text: "UX Design - From Wireframe to Prototype logo UX Design",
-                          maxLines: 2,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const CustomText(
-                        text: "Sam Smith",
-                        fontSize: 13,
-                        color: Color.fromARGB(255, 130, 129, 129),
-                      ),
-                      const Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                        CustomText(
-                          text: "35% Completed",
-                          color: redColor,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        )
-                      ])
-                    ]))
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: size.width * 0.58,
+                            child: const CustomText(
+                              text:
+                                  "UX Design - From Wireframe to Prototype logo UX Design",
+                              maxLines: 2,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const CustomText(
+                            text: "Sam Smith",
+                            fontSize: 13,
+                            color: Color.fromARGB(255, 130, 129, 129),
+                          ),
+                          const Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                CustomText(
+                                  text: "35% Completed",
+                                  color: redColor,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                )
+                              ])
+                        ]))
               ])),
           const KHeight(size: 0.02),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [

@@ -8,6 +8,7 @@ import 'package:shreeiraeducation/view/edit_profile/bloc/bloc/edit_user_bloc.dar
 import 'package:shreeiraeducation/view/home/bloc/category_bloc/category_bloc.dart';
 import 'package:shreeiraeducation/view/home/widgets/drawer/bloc/user/user_bloc.dart';
 import 'package:shreeiraeducation/view/home/screens/home_screen.dart';
+import 'package:shreeiraeducation/view/outgoing_course/bloc/outgoingcource/outgoingcource_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +23,9 @@ Future<void> main() async {
         
         BlocProvider(
           create: (context) => serviceLocator<UserBloc>()..add(GetUserDetailsEvent()),
+        ),
+        BlocProvider(
+          create: (context) => serviceLocator<OutgoingcourceBloc>(),
         ),
         BlocProvider(
           create: (context) => serviceLocator<EditUserBloc>(),

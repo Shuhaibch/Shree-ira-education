@@ -15,11 +15,13 @@ class TopCategoryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) =>
-                TopCategoryScreen(subCategoryList: category.subCategory),
-          )),
+        context,
+        MaterialPageRoute(
+          builder: (context) => TopCategoryScreen(
+              subCategoryList: category.subCategory,
+              category: category.category),
+        ),
+      ),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(14.0),

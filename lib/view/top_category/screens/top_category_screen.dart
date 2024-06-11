@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shreeiraeducation/models/categories/categories_model.dart';
 import 'package:shreeiraeducation/models/categories/sub_category_model.dart';
 import 'package:shreeiraeducation/utils/colors/colors.dart';
 import 'package:shreeiraeducation/utils/size/constant_height/constant_height.dart';
@@ -10,8 +11,10 @@ class TopCategoryScreen extends StatelessWidget {
   const TopCategoryScreen({
     super.key,
     required this.subCategoryList,
+    required this.category,
   });
   final List<SubCategory> subCategoryList;
+  final Category category;
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -75,62 +78,64 @@ class TopCategoryScreen extends StatelessWidget {
                 fontSize: 18,
               ),
               SizedBox(
-                  height: size.height * 0.24,
-                  width: double.infinity,
-                  child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {},
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  height: size.height * 0.13,
-                                  width: size.width * 0.42,
-                                  margin: const EdgeInsets.only(right: 10),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(14.0),
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                      width: 1.0,
-                                    ),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(14.0),
-                                    child: Image.asset(
-                                      "assets/images/grid.png",
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                const KHeight(size: 0.01),
-                                SizedBox(
-                                  width: size.width * 0.4,
-                                  child: const CustomText(
-                                    text:
-                                        "UX Design - From Wireframe to Prototype logo",
-                                    // color: whiteColor,
-                                    fontWeight: FontWeight.bold,
-                                    maxLines: 2,
-                                  ),
-                                ),
-                                const CustomText(
-                                  text: "Sam Smith",
+                height: size.height * 0.24,
+                width: double.infinity,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {},
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: size.height * 0.13,
+                              width: size.width * 0.42,
+                              margin: const EdgeInsets.only(right: 10),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(14.0),
+                                border: Border.all(
                                   color: Colors.grey,
-                                )
-                              ],
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(14.0),
+                                child: Image.asset(
+                                  "assets/images/grid.png",
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) => const SizedBox(
-                            width: 15,
-                          ),
-                      itemCount: 3)),
+                            const KHeight(size: 0.01),
+                            SizedBox(
+                              width: size.width * 0.4,
+                              child: const CustomText(
+                                text:
+                                    "UX Design - From Wireframe to Prototype logo",
+                                // color: whiteColor,
+                                fontWeight: FontWeight.bold,
+                                maxLines: 2,
+                              ),
+                            ),
+                            const CustomText(
+                              text: "Sam Smith",
+                              color: Colors.grey,
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) => const SizedBox(
+                    width: 15,
+                  ),
+                  itemCount: 3,
+                ),
+              ),
               const Divider(
                 thickness: 6,
                 color: Color.fromARGB(255, 234, 226, 226),
@@ -149,6 +154,7 @@ class TopCategoryScreen extends StatelessWidget {
                 height: size.height * .5,
                 child: SubCategoryWidget(
                   subCategory: subCategoryList,
+                  category: category,
                 ),
               )
             ],
