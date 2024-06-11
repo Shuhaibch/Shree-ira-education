@@ -69,4 +69,13 @@ class CategoryAndSubCategory {
             catImage: ''),
         subCategory: [],
       );
+
+  static String courseCount(List<SubCategory> subCategory) {
+    int count = 0;
+    for (var element in subCategory) {
+      var course = element.coursesCount;
+      count = count + int.parse(course);
+    }
+    return count.toString();
+  }
 }

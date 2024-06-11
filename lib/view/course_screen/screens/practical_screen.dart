@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:shreeiraeducation/models/courses/course_by_id_model.dart';
 import 'package:shreeiraeducation/utils/colors/colors.dart';
+import 'package:shreeiraeducation/utils/helper/string_remove.dart';
 import 'package:shreeiraeducation/utils/size/constant_height/constant_height.dart';
 import 'package:shreeiraeducation/utils/text/custom_text.dart';
+import 'package:shreeiraeducation/view/course_screen/screens/couse_change_vedio_screen.dart';
 import 'package:shreeiraeducation/view/quiz/screens/online_exam_screen.dart';
 
 class PracticalScreen extends StatelessWidget {
   const PracticalScreen({
     super.key,
+    required this.course,
   });
+  final CourseByIdModel course;
 
   @override
   Widget build(BuildContext context) {
@@ -20,44 +25,57 @@ class PracticalScreen extends StatelessWidget {
           Expanded(
             child: ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: 5,
+              itemCount: course.practicals!.length,
               itemBuilder: (context, index) {
+                final pratical = course.practicals![index];
                 return Padding(
                   padding: const EdgeInsets.all(6.0),
-                  child: Card(
-                    color: whiteColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    child: Row(
-                      children: [
-                        ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            bottomLeft: Radius.circular(20),
-                            bottomRight: Radius.circular(20),
-                            topRight: Radius.circular(20),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CourseChangeVedioScreen(
+                                url: pratical.video!, course: course),
+                          ));
+                    },
+                    child: Card(
+                      color: whiteColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      child: Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              bottomLeft: Radius.circular(20),
+                              bottomRight: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            ),
+                            child: Image.asset(
+                              "assets/logo/logo.png",
+                              height: size.height * 0.1,
+                              width: size.width * 0.23,
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                          child: Image.asset(
-                            "assets/images/home.png",
-                            height: size.height * 0.1,
-                            width: size.width * 0.23,
-                            fit: BoxFit.cover,
+                          // CRoundedImage(imageUrl: pratical.)),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CustomText(
+                                  text: StringHelper.removeFromString(
+                                      pratical.title ?? "Title"),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CustomText(
-                                text: "Video 01",
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 );

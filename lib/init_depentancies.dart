@@ -4,6 +4,7 @@ import 'package:shreeiraeducation/controller/categories/categories_controller.da
 import 'package:shreeiraeducation/controller/cources/cources_controller.dart';
 import 'package:shreeiraeducation/controller/user_details/user_controller.dart';
 import 'package:shreeiraeducation/view/authentication/bloc/authentication_bloc.dart';
+import 'package:shreeiraeducation/view/course_screen/bloc/course_by_id/course_by_id_bloc.dart';
 import 'package:shreeiraeducation/view/edit_profile/bloc/bloc/edit_user_bloc.dart';
 import 'package:shreeiraeducation/view/home/bloc/category_bloc/category_bloc.dart';
 import 'package:shreeiraeducation/view/home/widgets/drawer/bloc/user/user_bloc.dart';
@@ -51,14 +52,14 @@ void _initCourse() {
     () => CourseController(),
   );
   //* Bloc
-  serviceLocator.registerLazySingleton(
+  serviceLocator..registerLazySingleton(
     () => OutgoingcourceBloc(
       controller: serviceLocator(),
     ),
+  )
+  ..registerLazySingleton(
+    () => CourseByIdBloc(controller: serviceLocator()),
   );
-  // ..registerLazySingleton(
-  //   () => EditUserBloc(controller: serviceLocator()),
-  // );
 }
 
 void _initProduct() {

@@ -34,6 +34,7 @@ class CustomText extends StatelessWidget {
       ),
       textAlign: textAlign,
       maxLines: maxLines,
+      softWrap: true,
     );
   }
 }

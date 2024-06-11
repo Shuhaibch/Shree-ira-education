@@ -68,7 +68,8 @@ class TopCategoryWidget extends StatelessWidget {
                     color: Colors.white,
                   ),
                   CustomText(
-                    text: '${category.subCategory.length} courses',
+                    text:
+                        '${CategoryAndSubCategory.courseCount(category.subCategory)} courses',
                     fontSize: 12,
                     color: Colors.white,
                   )

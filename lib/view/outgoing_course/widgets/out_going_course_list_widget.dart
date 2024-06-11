@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shreeiraeducation/commen/widget/image/circular_image.dart';
 import 'package:shreeiraeducation/models/courses/courses_model.dart';
 import 'package:shreeiraeducation/utils/size/constant_height/constant_height.dart';
 import 'package:shreeiraeducation/utils/text/custom_text.dart';
+import 'package:shreeiraeducation/view/course_screen/bloc/course_by_id/course_by_id_bloc.dart';
 import 'package:shreeiraeducation/view/course_screen/screens/course_main_screen.dart';
 
 class OutGoingCourseListWidget extends StatelessWidget {
@@ -30,6 +32,8 @@ class OutGoingCourseListWidget extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () {
+                      context.read<CourseByIdBloc>().add(GetCourseByIdEvent(
+                          courseId: course[index].id.toString()));
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => const CourseScreen(),
