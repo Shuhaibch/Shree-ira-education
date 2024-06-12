@@ -124,7 +124,7 @@ class SignUpScreen extends StatelessWidget {
                 child: BlocConsumer<AuthenticationBloc, AuthenticationState>(
                   listener: (context, state) {
                     if (state is UserSignUpSuccessState) {
-                      CSnackBar.showSnackBar(
+                      CSnackBar.showSuccessSnackBar(
                           context, "Account Created please Login");
                       Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(

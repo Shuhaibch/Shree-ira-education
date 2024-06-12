@@ -1,9 +1,11 @@
 import 'package:get_it/get_it.dart';
 import 'package:shreeiraeducation/controller/authentication/auth_controller.dart';
+import 'package:shreeiraeducation/controller/cart/cart_controller.dart';
 import 'package:shreeiraeducation/controller/categories/categories_controller.dart';
 import 'package:shreeiraeducation/controller/cources/cources_controller.dart';
 import 'package:shreeiraeducation/controller/user_details/user_controller.dart';
 import 'package:shreeiraeducation/view/authentication/bloc/authentication_bloc.dart';
+import 'package:shreeiraeducation/view/cart/bloc/bloc/cart_bloc.dart';
 import 'package:shreeiraeducation/view/course_screen/bloc/course_by_id/course_by_id_bloc.dart';
 import 'package:shreeiraeducation/view/edit_profile/bloc/bloc/edit_user_bloc.dart';
 import 'package:shreeiraeducation/view/home/bloc/category_bloc/category_bloc.dart';
@@ -48,18 +50,25 @@ void _initUser() {
 }
 
 void _initCourse() {
-  serviceLocator.registerFactory(
-    () => CourseController(),
-  );
+  serviceLocator
+    ..registerFactory(
+      () => CourseController(),
+    )
+    ..registerFactory(
+      () => CartController(),
+    );
   //* Bloc
-  serviceLocator..registerLazySingleton(
-    () => OutgoingcourceBloc(
-      controller: serviceLocator(),
-    ),
-  )
-  ..registerLazySingleton(
-    () => CourseByIdBloc(controller: serviceLocator()),
-  );
+  serviceLocator
+    ..registerLazySingleton(
+      () => OutgoingcourceBloc(
+        controller: serviceLocator(),
+      ),
+    )
+    ..registerLazySingleton(
+      () => CourseByIdBloc(controller: serviceLocator()),
+    )..registerLazySingleton(
+      () => CartBloc(controller: serviceLocator()),
+    );
 }
 
 void _initProduct() {

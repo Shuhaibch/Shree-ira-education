@@ -150,7 +150,7 @@ class CourseMainScreenWidget extends StatelessWidget {
             ),
           ),
         ),
-        CourseBottomWidget(course: course)
+        CourseBottomWidget(course: course , controller: _controller,)
       ],
     );
   }

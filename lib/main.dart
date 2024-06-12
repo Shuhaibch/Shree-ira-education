@@ -5,6 +5,7 @@ import 'package:shreeiraeducation/init_depentancies.dart';
 import 'package:shreeiraeducation/simple_bloc_observer.dart';
 import 'package:shreeiraeducation/view/authentication/bloc/authentication_bloc.dart';
 import 'package:shreeiraeducation/view/authentication/screens/login_screen.dart';
+import 'package:shreeiraeducation/view/cart/bloc/bloc/cart_bloc.dart';
 import 'package:shreeiraeducation/view/course_screen/bloc/course_by_id/course_by_id_bloc.dart';
 import 'package:shreeiraeducation/view/edit_profile/bloc/bloc/edit_user_bloc.dart';
 import 'package:shreeiraeducation/view/home/bloc/category_bloc/category_bloc.dart';
@@ -39,6 +40,9 @@ Future<void> main() async {
         ),
         BlocProvider(
           create: (context) => serviceLocator<CourseByIdBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => serviceLocator<CartBloc>()..add(const GetCartCourseEvent()),
         ),
       ],
       child: BlocProvider(

@@ -2,17 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shreeiraeducation/commen/widget/layout/grid_layout.dart';
 import 'package:shreeiraeducation/commen/widget/shimmer/top_categories_loader_gridwidgett.dart';
-import 'package:shreeiraeducation/models/categories/categories_model.dart';
-import 'package:shreeiraeducation/models/categories/sub_category_model.dart';
 import 'package:shreeiraeducation/utils/colors/colors.dart';
-import 'package:shreeiraeducation/utils/helper/grid_view.dart';
 import 'package:shreeiraeducation/utils/size/constant_height/constant_height.dart';
 import 'package:shreeiraeducation/utils/text/custom_text.dart';
 import 'package:shreeiraeducation/view/home/bloc/category_bloc/category_bloc.dart';
 import 'package:shreeiraeducation/view/home/widgets/outgoing_course_card_widget.dart';
 import 'package:shreeiraeducation/view/home/widgets/search_widget.dart';
 import 'package:shreeiraeducation/view/home/widgets/top_category_widget.dart';
-import 'package:shreeiraeducation/view/top_category/screens/top_category_screen.dart';
 import 'package:shreeiraeducation/view/home/widgets/drawer/drawer_widget.dart';
 import 'package:shreeiraeducation/view/notification/screens/notification_screen.dart';
 

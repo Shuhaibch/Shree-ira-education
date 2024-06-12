@@ -238,7 +238,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 BlocProvider.of<UserBloc>(context)
                                     .add(GetUserDetailsEvent());
 
-                                CSnackBar.showSnackBar(
+                                CSnackBar.showSuccessSnackBar(
                                     context, 'Profile Updated Successfully');
                                 Navigator.pushReplacement(
                                     context,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CSnackBar {
-  static void showSnackBar(BuildContext context, String content) {
+  static void showSuccessSnackBar(BuildContext context, String content) {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(
@@ -23,13 +23,14 @@ class CSnackBar {
       );
   }
 
-// void showSnackBar(BuildContext context, String content) {
-//   ScaffoldMessenger.of(context)
-//     ..hideCurrentSnackBar()
-//     ..showSnackBar(
-//       SnackBar(
-//         content: Text(content),
-//       ),
-//     );
-// }
+static void showSnackBar(BuildContext context, String content) {
+  ScaffoldMessenger.of(context)
+    ..hideCurrentSnackBar()
+    ..showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.orange,
+        content: Text(content),
+      ),
+    );
+}
 }

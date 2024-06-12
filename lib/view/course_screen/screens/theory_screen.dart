@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:shreeiraeducation/models/courses/course_by_id_model.dart';
 import 'package:shreeiraeducation/utils/colors/colors.dart';
 import 'package:shreeiraeducation/utils/helper/string_remove.dart';
 import 'package:shreeiraeducation/utils/size/constant_height/constant_height.dart';
+import 'package:shreeiraeducation/utils/snack_bar/snackbar.dart';
 import 'package:shreeiraeducation/utils/text/custom_text.dart';
 import 'package:shreeiraeducation/view/course_screen/widgets/course_description_widget.dart';
 
@@ -127,6 +131,8 @@ class CoursesExpandedConatinerWidget extends StatelessWidget {
   final Theory theory;
   @override
   Widget build(BuildContext context) {
+    bool isDownloading = false;
+
     return Card(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(12))),
@@ -149,17 +155,53 @@ class CoursesExpandedConatinerWidget extends StatelessWidget {
                       theory.description ?? 'Description'),
                 ),
               ),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(left: 10.0, right: 20, bottom: 15),
-                    child: CustomText(
-                      text: 'Download Pdf',
-                      color: Colors.orange,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 15,
+                    padding: const EdgeInsets.only(left: 10.0, right: 20, bottom: 15),
+                    child: InkWell(
+                      onTap: () {
+                        //You can download a single file
+// FileDownloader.downloadFile(
+//     url: "YOUR DOWNLOAD URL",
+//     name: "THE FILE NAME AFTER DOWNLOADING",//(optional)
+//     onProgress: (String fileName, double progress) {
+//       print('FILE fileName HAS PROGRESS $progress');
+//     },
+//     onDownloadCompleted: (String path) {
+//       print('FILE DOWNLOADED TO PATH: $path');
+//     },
+//     onDownloadError: (String error) {
+//       print('DOWNLOAD ERROR: $error');
+//     });
+                        log('message');
+                        FileDownloader.downloadFile(
+                          url:
+                              'http://axnoldigitalsolutions.in/Training/images/course/${theory.file!}',
+                          onProgress: (fileName, progress) {
+                            isDownloading = true;
+                            CSnackBar.showSnackBar(
+                                context, 'Your File is downloading');
+                          },
+                          onDownloadCompleted: (path) {
+                            isDownloading = false;
+                            CSnackBar.showSuccessSnackBar(
+                                context, "DownLoad Completed");
+                          },
+                          onDownloadError: (errorMessage) {
+                            isDownloading = false;
+                            CSnackBar.showErrorSnackBar(context, errorMessage);
+                          },
+                        );
+                      },
+                      child: const CustomText(
+                        text: 'Download Pdf',
+                        color: Colors.orange,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15,
+                      ),
                     ),
                   ),
                 ],

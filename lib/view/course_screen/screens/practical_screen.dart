@@ -32,12 +32,14 @@ class PracticalScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(6.0),
                   child: InkWell(
                     onTap: () {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CourseChangeVedioScreen(
-                                url: pratical.video!, course: course),
-                          ));
+                      if (pratical.video!.contains(course.practicals![index].video!)  ) {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CourseChangeVedioScreen(
+                                  url: pratical.video!, course: course),
+                            ));
+                      }
                     },
                     child: Card(
                       color: whiteColor,
