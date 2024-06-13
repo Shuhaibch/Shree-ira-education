@@ -1,30 +1,32 @@
-
+// To parse this JSON data, do
+//
+//     final coursesByIdRespModel = coursesByIdRespModelFromJson(jsonString);
 
 import 'dart:convert';
 
-CoursesByIDRespModel coursesRespModelFromJson(String str) => CoursesByIDRespModel.fromJson(json.decode(str));
+CoursesByIdRespModel coursesByIdRespModelFromJson(String str) => CoursesByIdRespModel.fromJson(json.decode(str));
 
-String coursesRespModelToJson(CoursesByIDRespModel data) => json.encode(data.toJson());
+String coursesByIdRespModelToJson(CoursesByIdRespModel data) => json.encode(data.toJson());
 
-class CoursesByIDRespModel {
+class CoursesByIdRespModel {
     String? message;
     CourseByIdModel? course;
 
-    CoursesByIDRespModel({
+    CoursesByIdRespModel({
         this.message,
         this.course,
     });
 
-    CoursesByIDRespModel copyWith({
+    CoursesByIdRespModel copyWith({
         String? message,
         CourseByIdModel? course,
     }) => 
-        CoursesByIDRespModel(
+        CoursesByIdRespModel(
             message: message ?? this.message,
             course: course ?? this.course,
         );
 
-    factory CoursesByIDRespModel.fromJson(Map<String, dynamic> json) => CoursesByIDRespModel(
+    factory CoursesByIdRespModel.fromJson(Map<String, dynamic> json) => CoursesByIdRespModel(
         message: json["message"],
         course: json["Course"] == null ? null : CourseByIdModel.fromJson(json["Course"]),
     );
@@ -67,9 +69,11 @@ class CourseByIdModel {
     String? curriculamIntroduction;
     String? isRefer;
     dynamic syllabus;
+    CourseBrief? courseBrief;
     List<Theory>? theory;
     List<QuestionAnswer>? questionAnswers;
     List<Practical>? practicals;
+    Category? category;
 
     CourseByIdModel({
         this.id,
@@ -103,9 +107,11 @@ class CourseByIdModel {
         this.curriculamIntroduction,
         this.isRefer,
         this.syllabus,
+        this.courseBrief,
         this.theory,
         this.questionAnswers,
         this.practicals,
+        this.category,
     });
 
     CourseByIdModel copyWith({
@@ -140,9 +146,11 @@ class CourseByIdModel {
         String? curriculamIntroduction,
         String? isRefer,
         dynamic syllabus,
+        CourseBrief? courseBrief,
         List<Theory>? theory,
         List<QuestionAnswer>? questionAnswers,
         List<Practical>? practicals,
+        Category? category,
     }) => 
         CourseByIdModel(
             id: id ?? this.id,
@@ -176,9 +184,11 @@ class CourseByIdModel {
             curriculamIntroduction: curriculamIntroduction ?? this.curriculamIntroduction,
             isRefer: isRefer ?? this.isRefer,
             syllabus: syllabus ?? this.syllabus,
+            courseBrief: courseBrief ?? this.courseBrief,
             theory: theory ?? this.theory,
             questionAnswers: questionAnswers ?? this.questionAnswers,
             practicals: practicals ?? this.practicals,
+            category: category ?? this.category,
         );
 
     factory CourseByIdModel.fromJson(Map<String, dynamic> json) => CourseByIdModel(
@@ -213,9 +223,11 @@ class CourseByIdModel {
         curriculamIntroduction: json["curriculam_introduction"],
         isRefer: json["is_refer"],
         syllabus: json["syllabus"],
+        courseBrief: json["course_brief"] == null ? null : CourseBrief.fromJson(json["course_brief"]),
         theory: json["theory"] == null ? [] : List<Theory>.from(json["theory"]!.map((x) => Theory.fromJson(x))),
         questionAnswers: json["question_answers"] == null ? [] : List<QuestionAnswer>.from(json["question_answers"]!.map((x) => QuestionAnswer.fromJson(x))),
         practicals: json["practicals"] == null ? [] : List<Practical>.from(json["practicals"]!.map((x) => Practical.fromJson(x))),
+        category: json["category"] == null ? null : Category.fromJson(json["category"]),
     );
 
     Map<String, dynamic> toJson() => {
@@ -250,9 +262,129 @@ class CourseByIdModel {
         "curriculam_introduction": curriculamIntroduction,
         "is_refer": isRefer,
         "syllabus": syllabus,
+        "course_brief": courseBrief?.toJson(),
         "theory": theory == null ? [] : List<dynamic>.from(theory!.map((x) => x.toJson())),
         "question_answers": questionAnswers == null ? [] : List<dynamic>.from(questionAnswers!.map((x) => x.toJson())),
         "practicals": practicals == null ? [] : List<dynamic>.from(practicals!.map((x) => x.toJson())),
+        "category": category?.toJson(),
+    };
+}
+
+class Category {
+    int? id;
+    String? title;
+    String? icon;
+    String? slug;
+    String? featured;
+    String? status;
+    String? position;
+    DateTime? createdAt;
+    DateTime? updatedAt;
+    String? catImage;
+
+    Category({
+        this.id,
+        this.title,
+        this.icon,
+        this.slug,
+        this.featured,
+        this.status,
+        this.position,
+        this.createdAt,
+        this.updatedAt,
+        this.catImage,
+    });
+
+    Category copyWith({
+        int? id,
+        String? title,
+        String? icon,
+        String? slug,
+        String? featured,
+        String? status,
+        String? position,
+        DateTime? createdAt,
+        DateTime? updatedAt,
+        String? catImage,
+    }) => 
+        Category(
+            id: id ?? this.id,
+            title: title ?? this.title,
+            icon: icon ?? this.icon,
+            slug: slug ?? this.slug,
+            featured: featured ?? this.featured,
+            status: status ?? this.status,
+            position: position ?? this.position,
+            createdAt: createdAt ?? this.createdAt,
+            updatedAt: updatedAt ?? this.updatedAt,
+            catImage: catImage ?? this.catImage,
+        );
+
+    factory Category.fromJson(Map<String, dynamic> json) => Category(
+        id: json["id"],
+        title: json["title"],
+        icon: json["icon"],
+        slug: json["slug"],
+        featured: json["featured"],
+        status: json["status"],
+        position: json["position"],
+        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+        catImage: json["cat_image"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "title": title,
+        "icon": icon,
+        "slug": slug,
+        "featured": featured,
+        "status": status,
+        "position": position,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+        "cat_image": catImage,
+    };
+}
+
+class CourseBrief {
+    String? categoryName;
+    String? price;
+    int? totalVideos;
+    String? courseType;
+
+    CourseBrief({
+        this.categoryName,
+        this.price,
+        this.totalVideos,
+        this.courseType,
+    });
+
+    CourseBrief copyWith({
+        String? categoryName,
+        String? price,
+        int? totalVideos,
+        String? courseType,
+    }) => 
+        CourseBrief(
+            categoryName: categoryName ?? this.categoryName,
+            price: price ?? this.price,
+            totalVideos: totalVideos ?? this.totalVideos,
+            courseType: courseType ?? this.courseType,
+        );
+
+    factory CourseBrief.fromJson(Map<String, dynamic> json) => CourseBrief(
+        categoryName: json["category_name"],
+        price: json["price"],
+        totalVideos: json["total_videos"],
+        courseType: json["course_type"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "category_name": categoryName,
+        "price": price,
+        "total_videos": totalVideos,
+        "course_type": courseType,
     };
 }
 

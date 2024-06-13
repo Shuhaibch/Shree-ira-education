@@ -5,12 +5,13 @@ import 'package:shreeiraeducation/commen/widget/shimmer/top_categories_loader_gr
 import 'package:shreeiraeducation/utils/colors/colors.dart';
 import 'package:shreeiraeducation/utils/size/constant_height/constant_height.dart';
 import 'package:shreeiraeducation/utils/text/custom_text.dart';
+import 'package:shreeiraeducation/view/cart/bloc/bloc/cart_bloc.dart';
+import 'package:shreeiraeducation/view/cart/screens/cart_screen.dart';
 import 'package:shreeiraeducation/view/home/bloc/category_bloc/category_bloc.dart';
 import 'package:shreeiraeducation/view/home/widgets/outgoing_course_card_widget.dart';
 import 'package:shreeiraeducation/view/home/widgets/search_widget.dart';
 import 'package:shreeiraeducation/view/home/widgets/top_category_widget.dart';
 import 'package:shreeiraeducation/view/home/widgets/drawer/drawer_widget.dart';
-import 'package:shreeiraeducation/view/notification/screens/notification_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({
@@ -23,30 +24,32 @@ class HomeScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-            iconTheme: const IconThemeData(color: whiteColor),
-            backgroundColor: themeColor,
-            title: const Center(
-              child: CustomText(
-                text: "Easymem",
+          iconTheme: const IconThemeData(color: whiteColor),
+          backgroundColor: themeColor,
+          // title: const Center(
+          //   child: CustomText(
+          //     text: "Easymem",
+          //     color: whiteColor,
+          //     fontWeight: FontWeight.w600,
+          //   ),
+          // ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                context.read<CartBloc>().add(const GetCartCourseEvent());
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const CartScreen(),
+                  ),
+                );
+              },
+              icon: const Icon(
+                Icons.shopping_cart_outlined,
                 color: whiteColor,
-                fontWeight: FontWeight.w600,
               ),
-            ),
-            actions: [
-              IconButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const NotificationScreen(),
-                    ),
-                  );
-                },
-                icon: const Icon(
-                  Icons.notifications,
-                  color: whiteColor,
-                ),
-              )
-            ]),
+            )
+          ],
+        ),
         drawer: DrawerWidget(size: size),
         body: SingleChildScrollView(
           child: Column(
@@ -111,9 +114,7 @@ class HomeScreen extends StatelessWidget {
                       //* Top Categories
 
                       BlocConsumer<CategoryBloc, CategoryState>(
-                        listener: (context, state) {
-                          // TODO: implement listener
-                        },
+                        listener: (context, state) {},
                         builder: (context, state) {
                           if (state is GetCategoriesLoadingState) {
                             return const CTopCategoryLoaderGridWidget();
@@ -126,12 +127,13 @@ class HomeScreen extends StatelessWidget {
                                 bottom: 12,
                               ),
                               child: CGridLayout(
-                                itemCount: state.categoryAndSubCategoryList.length,
+                                itemCount:
+                                    state.categoryAndSubCategoryList.length,
                                 mainAxisExtent: 90,
                                 itemBuilder: (_, index) {
-                                 
                                   return TopCategoryWidget(
-                                    category:  state.categoryAndSubCategoryList[index],
+                                    category:
+                                        state.categoryAndSubCategoryList[index],
                                   );
                                 },
                               ),
@@ -142,7 +144,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SearchWidget()
+                  SearchWidget()
                 ],
               )
             ],

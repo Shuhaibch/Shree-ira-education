@@ -21,3 +21,6 @@ final class DeleteCartCourseEvent extends CartEvent {
   final String courseId;
   const DeleteCartCourseEvent({required this.courseId});
 }
+final class CourseCheckOutEvent extends CartEvent{
+  
+}

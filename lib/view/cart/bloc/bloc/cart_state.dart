@@ -40,3 +40,11 @@ final class DeleteCartCourseLoadingState extends CartState {}
 final class DeleteCartCourseSuccessState extends CartState {}
 
 final class DeleteCartCourseFailedState extends CartState {}
+
+// ******************************************************
+
+final class CourseCheckOutLoadingState extends CartState {}
+
+final class CourseCheckOutSuccessState extends CartState {}
+
+final class CourseCheckOutFailedState extends CartState {}

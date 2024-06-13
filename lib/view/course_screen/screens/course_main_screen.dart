@@ -1,5 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shreeiraeducation/view/cart/bloc/bloc/cart_bloc.dart';
+import 'package:shreeiraeducation/view/cart/screens/cart_screen.dart';
+import 'package:shreeiraeducation/view/course_screen/widgets/course_bottom_widget.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import 'package:shreeiraeducation/utils/colors/colors.dart';
@@ -52,13 +57,14 @@ class _CourseScreenState extends State<CourseScreen> {
               );
             }
             if (state is GetCourseByIdSuccessState) {
+              log(state.course.id.toString());
               late YoutubePlayerController _controller;
 
               if (state.course.url == null) {
                 _controller = YoutubePlayerController(
                   initialVideoId: "YLpCPo0FDtE",
                   flags: const YoutubePlayerFlags(
-                    autoPlay: true,
+                    autoPlay: false,
                     mute: true,
                   ),
                 );
@@ -82,17 +88,35 @@ class _CourseScreenState extends State<CourseScreen> {
                       color: whiteColor,
                       fontWeight: FontWeight.bold,
                     ),
+                    // actions: [
+                    //   IconButton(
+                    //     onPressed: () {
+                    //       Navigator.of(context).push(
+                    //         MaterialPageRoute(
+                    //           builder: (context) => const NotificationScreen(),
+                    //         ),
+                    //       );
+                    //     },
+                    //     icon: const Icon(
+                    //       Icons.notifications,
+                    //       color: whiteColor,
+                    //     ),
+                    //   )
+                    // ],
                     actions: [
                       IconButton(
                         onPressed: () {
+                          context
+                              .read<CartBloc>()
+                              .add(const GetCartCourseEvent());
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => const NotificationScreen(),
+                              builder: (context) => const CartScreen(),
                             ),
                           );
                         },
                         icon: const Icon(
-                          Icons.notifications,
+                          Icons.shopping_cart_outlined,
                           color: whiteColor,
                         ),
                       )
@@ -162,12 +186,18 @@ class _CourseScreenState extends State<CourseScreen> {
                         size: size,
                         controller: _controller,
                       ),
+                      bottomNavigationBar: state.course.type == '0'
+                          ? null
+                          : CourseBottomWidget(
+                              course: state.course,
+                              controller: _controller,
+                            ),
                     );
                   },
                 );
               }
             }
-            return SizedBox();
+            return const SizedBox();
           },
         ),
       ),

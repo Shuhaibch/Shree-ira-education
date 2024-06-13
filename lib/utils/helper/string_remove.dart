@@ -1,4 +1,14 @@
+import 'package:html/parser.dart';
+
 class StringHelper {
+  static String parseHtmlString(String htmlString) {
+    final document = parse(htmlString);
+    final String parsedString =
+        parse(document.body!.text).documentElement!.text;
+
+    return parsedString;
+  }
+
   static String removeFromString(String text) {
     return text
         .replaceAll('<p>', '')
@@ -20,7 +30,9 @@ class StringHelper {
         .replaceAll('<ul>', '')
         .replaceAll('</ul>', '')
         .replaceAll('&amp;', ' ')
-        .replaceAll('<p>', '')
+        .replaceAll(
+            '<div id=\"ac1\" class=\"panel-collapse collapse in show\">\r\n<div class=\"panel-body\">\r\n<p>"<div id=\"ac1\" class=\"panel-collapse collapse in show\">\r\n<div class=\"panel-body\">\r\n<p>',
+            '')
         .replaceAll('<p>', '')
         .replaceAll('<p>', '')
         .replaceAll('<p>', '')

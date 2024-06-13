@@ -5,8 +5,11 @@ import 'package:shreeiraeducation/utils/colors/colors.dart';
 import 'package:shreeiraeducation/utils/text/custom_text.dart';
 import 'package:shreeiraeducation/view/authentication/bloc/authentication_bloc.dart';
 import 'package:shreeiraeducation/view/authentication/screens/login_screen.dart';
-import 'package:shreeiraeducation/view/cart/screens/cart_screen.dart';
+import 'package:shreeiraeducation/view/edit_profile/screens/edit_profile_screen.dart';
+import 'package:shreeiraeducation/view/home/screens/home_screen.dart';
 import 'package:shreeiraeducation/view/home/widgets/drawer/bloc/user/user_bloc.dart';
+import 'package:shreeiraeducation/view/home/widgets/drawer/terms_condition/privacy_policy_screen.dart';
+import 'package:shreeiraeducation/view/home/widgets/drawer/terms_condition/terms_condition_screen.dart';
 import 'package:shreeiraeducation/view/my_courses/screens/my_courses_screen.dart';
 
 import '../../../../models/user/user_model.dart';
@@ -25,6 +28,7 @@ class DrawerWidget extends StatelessWidget {
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     //   BlocProvider.of<UserBloc>(context).add(GetUserDetailsEvent());
     // });
+    User? user;
     return Drawer(
       surfaceTintColor: whiteColor,
       child: ListView(
@@ -35,8 +39,8 @@ class DrawerWidget extends StatelessWidget {
                 return const DrawerHeaderLoadingWidget();
               }
               if (state is GetUserDetailsSuccessState) {
-                final User user = state.user;
-                return DrawerHeaderWidget(user: user);
+                user = state.user;
+                return DrawerHeaderWidget(user: user!);
               }
               return const DrawerHeaderLoadingWidget();
             },
@@ -45,7 +49,14 @@ class DrawerWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pop(context);
+                  // Navigator.of(context).push(
+                  //   MaterialPageRoute(
+                  //     builder: (context) => const HomeScreen(),
+                  //   ),
+                  // );
+                },
                 child: const ListTile(
                   leading: Icon(
                     CupertinoIcons.search,
@@ -83,31 +94,42 @@ class DrawerWidget extends StatelessWidget {
                   ),
                 ),
               ),
+              // GestureDetector(
+              //   onTap: () {
+              //     Navigator.pop(context);
+              //     Navigator.of(context).push(
+              //       MaterialPageRoute(
+              //         builder: (context) => const CartScreen(),
+              //       ),
+              //     );
+              //   },
+              //   child: const ListTile(
+              //     leading: Icon(
+              //       Icons.privacy_tip_outlined,
+              //       size: 26,
+              //       color: greyColor,
+              //     ),
+              //     title: CustomText(
+              //       text: "Purchased Courses",
+              //       color: greyColor,
+              //       fontSize: 18,
+              //       fontWeight: FontWeight.w500,
+              //     ),
+              //   ),
+              // ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pop(context);
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const CartScreen(),
-                    ),
-                  );
+                  if (user != null) {
+                    Navigator.pop(context);
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => EditProfileScreen(
+                          user: user!,
+                        ),
+                      ),
+                    );
+                  }
                 },
-                child: const ListTile(
-                  leading: Icon(
-                    Icons.privacy_tip_outlined,
-                    size: 26,
-                    color: greyColor,
-                  ),
-                  title: CustomText(
-                    text: "Purchased Courses",
-                    color: greyColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {},
                 child: const ListTile(
                   leading: Icon(
                     Icons.settings_outlined,
@@ -115,7 +137,7 @@ class DrawerWidget extends StatelessWidget {
                     size: 26,
                   ),
                   title: CustomText(
-                    text: "Settings",
+                    text: "Profile",
                     color: greyColor,
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
@@ -123,7 +145,14 @@ class DrawerWidget extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const TermsConditionScreen(),
+                    ),
+                  );
+                },
                 child: const ListTile(
                   leading: Icon(
                     Icons.info_outline,
@@ -131,7 +160,30 @@ class DrawerWidget extends StatelessWidget {
                     color: greyColor,
                   ),
                   title: CustomText(
-                    text: "About Us",
+                    text: "Terms & Conditions",
+                    color: greyColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const PrivacyPolicyScreen(),
+                    ),
+                  );
+                },
+                child: const ListTile(
+                  leading: Icon(
+                    Icons.privacy_tip,
+                    size: 26,
+                    color: greyColor,
+                  ),
+                  title: CustomText(
+                    text: "Privacy & Policy",
                     color: greyColor,
                     fontSize: 18,
                     fontWeight: FontWeight.w500,

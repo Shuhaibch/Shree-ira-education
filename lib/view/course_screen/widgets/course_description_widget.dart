@@ -49,16 +49,16 @@ class CoursesDescriptionCardWidget extends StatelessWidget {
                   ),
                   const KHeight(size: 0.01),
                   ReadMoreText(
-                    details,
+                    StringHelper.parseHtmlString(details),
                     trimLines: 2,
                     trimMode: TrimMode.Line,
                     trimCollapsedText: ' Show more',
                     trimExpandedText: ' Less',
-                    style: TextStyle(overflow: TextOverflow.ellipsis),
-                    moreStyle:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
-                    lessStyle:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
+                    style: const TextStyle(overflow: TextOverflow.ellipsis),
+                    moreStyle: const TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.w800),
+                    lessStyle: const TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.w800),
                   ),
                 ],
               ),

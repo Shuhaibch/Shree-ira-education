@@ -24,16 +24,17 @@ class CartItemCardWidget extends StatelessWidget {
       child: Row(
         children: [
           ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20),
-                bottomLeft: Radius.circular(20),
-              ),
-              child: Image.asset(
-                "assets/logo/logo.png",
-                height: size.height * 0.123,
-                width: size.width * 0.214,
-                fit: BoxFit.cover,
-              )),
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              bottomLeft: Radius.circular(20),
+            ),
+            child: Image.asset(
+              "assets/logo/logo.png",
+              height: size.height * 0.123,
+              width: size.width * 0.214,
+              fit: BoxFit.cover,
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(

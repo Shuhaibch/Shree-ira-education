@@ -64,18 +64,19 @@ class AuthenticationBloc
       UserIsLoggedInEvent event, Emitter<AuthenticationState> emit) async {
     emit(UserIsLoggedInLoadingState());
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String token = prefs.get('token') as String;
-    log(token);
 
     try {
-  if (prefs.containsKey('token')) {
-    emit(UserIsLoggedInState());
-  } else {
-    emit(UserIsLoggedInFailedState());
-  }
-}  catch (e) {
-    emit(UserIsLoggedInFailedState());
-}
+    
+
+
+      if (prefs.containsKey('token')) {
+        emit(UserIsLoggedInState());
+      } else {
+        emit(UserIsLoggedInFailedState());
+      }
+    } catch (e) {
+      emit(UserIsLoggedInFailedState());
+    }
   }
 
   void _onUserLogOut(

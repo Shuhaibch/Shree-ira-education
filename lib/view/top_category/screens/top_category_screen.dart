@@ -1,10 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shreeiraeducation/models/categories/categories_model.dart';
 import 'package:shreeiraeducation/models/categories/sub_category_model.dart';
 import 'package:shreeiraeducation/utils/colors/colors.dart';
 import 'package:shreeiraeducation/utils/size/constant_height/constant_height.dart';
 import 'package:shreeiraeducation/utils/text/custom_text.dart';
+import 'package:shreeiraeducation/view/cart/bloc/bloc/cart_bloc.dart';
+import 'package:shreeiraeducation/view/cart/screens/cart_screen.dart';
 import 'package:shreeiraeducation/view/top_category/widgets/sub_category_widget.dart';
 
 class TopCategoryScreen extends StatelessWidget {
@@ -33,10 +35,10 @@ class TopCategoryScreen extends StatelessWidget {
                 color: whiteColor,
               ),
             ),
-            title: const Center(
+            title: Center(
               child: Text(
-                'Design',
-                style: TextStyle(
+                category.title,
+                style: const TextStyle(
                   color: whiteColor,
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
@@ -57,10 +59,24 @@ class TopCategoryScreen extends StatelessWidget {
               ),
             ),
             actions: [
+              // IconButton(
+              //   onPressed: () {},
+              //   icon: const Icon(
+              //     CupertinoIcons.search,
+              //     color: whiteColor,
+              //   ),
+              // )
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.read<CartBloc>().add(const GetCartCourseEvent());
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const CartScreen(),
+                    ),
+                  );
+                },
                 icon: const Icon(
-                  CupertinoIcons.search,
+                  Icons.shopping_cart_outlined,
                   color: whiteColor,
                 ),
               )
@@ -73,7 +89,7 @@ class TopCategoryScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const CustomText(
-                text: "Recent Searches",
+                text: "Courses",
                 fontWeight: FontWeight.w600,
                 fontSize: 18,
               ),

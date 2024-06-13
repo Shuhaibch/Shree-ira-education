@@ -1,18 +1,22 @@
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shreeiraeducation/commen/widget/image/circular_image.dart';
 import 'package:shreeiraeducation/models/courses/course_by_id_model.dart';
-import 'package:shreeiraeducation/utils/buttons/custom_elevated_button.dart';
 import 'package:shreeiraeducation/utils/colors/colors.dart';
 import 'package:shreeiraeducation/utils/rating/rating_widget.dart';
 import 'package:shreeiraeducation/utils/size/constant_height/constant_height.dart';
 import 'package:shreeiraeducation/utils/text/custom_text.dart';
+import 'package:shreeiraeducation/view/cart/screens/cart_screen.dart';
 import 'package:shreeiraeducation/view/course_screen/screens/practical_screen.dart';
 import 'package:shreeiraeducation/view/course_screen/screens/question_answer_screen.dart';
 import 'package:shreeiraeducation/view/course_screen/screens/theory_screen.dart';
-import 'package:shreeiraeducation/view/course_screen/widgets/course_bottom_widget.dart';
 import 'package:shreeiraeducation/view/course_screen/widgets/courses_rating_bottom_sheet.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+
+import '../../../utils/snack_bar/snackbar.dart';
+import '../../cart/bloc/bloc/cart_bloc.dart';
 
 class CourseMainScreenWidget extends StatelessWidget {
   const CourseMainScreenWidget({
@@ -53,20 +57,22 @@ class CourseMainScreenWidget extends StatelessWidget {
                 imageUrl: course.previewImage!,
                 isNetworkImage: true,
               )
-            : Builder(builder: (context) {
-                return YoutubePlayer(
-                  controller: _controller,
-                  showVideoProgressIndicator: true,
-                  progressIndicatorColor: Colors.amber,
-                  progressColors: const ProgressBarColors(
-                    playedColor: Colors.amber,
-                    handleColor: Colors.amberAccent,
-                  ),
-                  onReady: () {
-                    // _controller.addListener(listener);
-                  },
-                );
-              }),
+            : Builder(
+                builder: (context) {
+                  return YoutubePlayer(
+                    controller: _controller,
+                    showVideoProgressIndicator: true,
+                    progressIndicatorColor: Colors.amber,
+                    progressColors: const ProgressBarColors(
+                      playedColor: Colors.amber,
+                      handleColor: Colors.amberAccent,
+                    ),
+                    onReady: () {
+                      // _controller.addListener(listener);
+                    },
+                  );
+                },
+              ),
         Expanded(
           child: SingleChildScrollView(
             child: Column(
@@ -88,10 +94,58 @@ class CourseMainScreenWidget extends StatelessWidget {
                               maxLines: 2,
                             ),
                           ),
-                          const CustomElevatedButton(
-                            text: "Enroll Now",
-                            bgColor: themeColor,
-                          )
+                          // const CustomElevatedButton(
+                          //   text: "Enroll Now",
+                          //   bgColor: themeColor,
+                          // )
+                          course.type == '0'
+                              ? const SizedBox()
+                              : BlocConsumer<CartBloc, CartState>(
+                                  listener: (context, state) {
+                                    if (state is AddCartSuccessState) {
+                                      // controller.dispose();
+                                      CSnackBar.showSuccessSnackBar(
+                                          context, 'Course added To cart');
+                                      context
+                                          .read<CartBloc>()
+                                          .add(const GetCartCourseEvent());
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const CartScreen(),
+                                        ),
+                                      );
+                                    }
+                                    if (state is AddCartAlreadyInCartState) {
+                                      CSnackBar.showSnackBar(
+                                          context, state.msg);
+                                    }
+                                    if (state is AddCartFailedState) {
+                                      CSnackBar.showErrorSnackBar(
+                                          context, 'Try Again');
+                                    }
+                                  },
+                                  builder: (context, state) {
+                                    return ElevatedButton(
+                                      style: const ButtonStyle(
+                                          backgroundColor:
+                                              WidgetStatePropertyAll(
+                                                  themeColor)),
+                                      onPressed: () {
+                                        log('message');
+                                        log(course.id.toString());
+                                        context.read<CartBloc>().add(
+                                            AddToCartEvent(
+                                                courseId:
+                                                    course.id.toString()));
+                                      },
+                                      child: const CustomText(
+                                        text: "Enroll Now",
+                                      ),
+                                    );
+                                  },
+                                )
                         ],
                       ),
                       const KHeight(size: 0.01),
@@ -138,7 +192,6 @@ class CourseMainScreenWidget extends StatelessWidget {
                       ),
                       PracticalScreen(
                         course: course,
-                        
                       ),
                       QuestionAnswerScreen(
                         course: course,
@@ -150,8 +203,12 @@ class CourseMainScreenWidget extends StatelessWidget {
             ),
           ),
         ),
-        CourseBottomWidget(course: course , controller: _controller,)
+       
       ],
     );
   }
 }
+// const CustomElevatedButton(
+//                             text: "Enroll Now",
+//                             bgColor: themeColor,
+//                           )

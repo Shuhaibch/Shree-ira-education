@@ -11,6 +11,8 @@ class CartController {
       "http://axnoldigitalsolutions.in/Training/api/show/cart";
   final String deleteCartCourseUrl =
       "http://axnoldigitalsolutions.in/Training/api/remove/cart";
+  final String checkOutUrl =
+      "http://axnoldigitalsolutions.in/Training/api/check-out";
 
   //* Signin
   Future<Map<String, dynamic>> addToCart({
@@ -131,4 +133,38 @@ class CartController {
   }
 
   //*************************************************************************************** */
+  //*************************************************************************************** */
+
+  Future<Map<String, dynamic>> courseCheckOut() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('token');
+      final response = await http.post(
+        Uri.parse(checkOutUrl),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      log(response.statusCode.toString());
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return {
+          'response': 'success',
+          'data': '',
+        };
+      } else {
+        // final resp = jsonDecode(response.body);
+        return {
+          'response': 'error',
+          'message': 'Error While Loading Categories',
+        };
+      }
+    } catch (e) {
+      print(e);
+      return {
+        'response': 'error',
+        'message': 'Error While Loading Categories',
+      };
+    }
+  }
 }

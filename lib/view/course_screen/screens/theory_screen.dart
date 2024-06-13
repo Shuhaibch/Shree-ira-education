@@ -8,6 +8,7 @@ import 'package:shreeiraeducation/utils/helper/string_remove.dart';
 import 'package:shreeiraeducation/utils/size/constant_height/constant_height.dart';
 import 'package:shreeiraeducation/utils/snack_bar/snackbar.dart';
 import 'package:shreeiraeducation/utils/text/custom_text.dart';
+import 'package:shreeiraeducation/view/course_screen/widgets/course_brief_widget.dart';
 import 'package:shreeiraeducation/view/course_screen/widgets/course_description_widget.dart';
 
 class TheoryScreen extends StatelessWidget {
@@ -28,77 +29,83 @@ class TheoryScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Card(
-          //   shape: const RoundedRectangleBorder(
-          //       borderRadius: BorderRadius.all(
-          //     Radius.circular(12),
-          //   )),
-          //   elevation: 2,
-          //   child: Container(
-          //     decoration: const BoxDecoration(
-          //       borderRadius: BorderRadius.all(
-          //         Radius.circular(12),
-          //       ),
-          //     ),
-          //     height: size.height * 0.17,
-          //     width: double.infinity,
-          //     // color: blackColor,
-          //     child: const Padding(
-          //       padding: EdgeInsets.all(10.0),
-          //       child: Column(
-          //         crossAxisAlignment: CrossAxisAlignment.start,
-          //         children: [
-          //           CustomText(
-          //             text: "Course Brief",
-          //             fontWeight: FontWeight.w500,
-          //             color: blackColor,
-          //           ),
-          //           Padding(
-          //             padding: EdgeInsets.all(8.0),
-          //             child: Row(
-          //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //               children: [
-          //                 Column(
-          //                   children: [
-          //                     CourseBriefWidget(
-          //                       textOne: "Total Timing",
-          //                       textTwo: "36 Hours",
-          //                       icon: Icons.timelapse_outlined,
-          //                     ),
-          //                     KHeight(size: 0.03),
-          //                     CourseBriefWidget(
-          //                       textOne: "Accessibility",
-          //                       textTwo: "Lifetime",
-          //                       icon: Icons.verified_user_rounded,
-          //                     ),
-          //                   ],
-          //                 ),
-          //                 Spacer(),
-          //                 Column(
-          //                   crossAxisAlignment: CrossAxisAlignment.start,
-          //                   children: [
-          //                     CourseBriefWidget(
-          //                       textOne: "Total Videos",
-          //                       textTwo: "36 Lectures",
-          //                       icon: Icons.live_tv_sharp,
-          //                     ),
-          //                     KHeight(size: 0.03),
-          //                     CourseBriefWidget(
-          //                       textOne: "Course Uploaded",
-          //                       textTwo: "20th Mar 2023",
-          //                       icon: Icons.event,
-          //                     ),
-          //                   ],
-          //                 )
-          //               ],
-          //             ),
-          //           )
-          //         ],
-          //       ),
-          //     ),
-          //   ),
-          // ),
-          // const KHeight(size: 0.02),
+          Card(
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(12),
+              ),
+            ),
+            elevation: 2,
+            child: Container(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(12),
+                ),
+              ),
+              height: size.height * 0.17,
+              width: double.infinity,
+              // color: blackColor,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const CustomText(
+                      text: "Course Brief",
+                      fontWeight: FontWeight.w500,
+                      color: blackColor,
+                    ),
+
+                    //* Icons Breif
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CourseBriefWidget(
+                                textOne: "Category",
+                                textTwo: course.courseBrief!.categoryName ?? '',
+                                icon: Icons.category,
+                              ),
+                              const KHeight(size: 0.03),
+                              CourseBriefWidget(
+                                textOne: "Course Type",
+                                textTwo: course.type == '1' ? 'Paid' : "Free",
+                                icon: Icons.verified_user_rounded,
+                              ),
+                            ],
+                          ),
+                          const Spacer(),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CourseBriefWidget(
+                                textOne: "Total Videos",
+                                textTwo: "${course.theory!.length} Lectures",
+                                icon: Icons.live_tv_sharp,
+                              ),
+                              const KHeight(size: 0.03),
+                              course.type == '0'
+                                  ? const SizedBox()
+                                  : CourseBriefWidget(
+                                      textOne: "Price",
+                                      textTwo: "₹${course.discountPrice}",
+                                      icon: Icons.price_change_outlined,
+                                    ),
+                            ],
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+          const KHeight(size: 0.02),
           CoursesDescriptionCardWidget(
             size: size,
             description: course.detail!,
@@ -160,7 +167,8 @@ class CoursesExpandedConatinerWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 10.0, right: 20, bottom: 15),
+                    padding: const EdgeInsets.only(
+                        left: 10.0, right: 20, bottom: 15),
                     child: InkWell(
                       onTap: () {
                         //You can download a single file
@@ -176,25 +184,41 @@ class CoursesExpandedConatinerWidget extends StatelessWidget {
 //     onDownloadError: (String error) {
 //       print('DOWNLOAD ERROR: $error');
 //     });
-                        log('message');
+                        // log(theory.file!);
                         FileDownloader.downloadFile(
                           url:
-                              'http://axnoldigitalsolutions.in/Training/images/course/${theory.file!}',
+                              'http://axnoldigitalsolutions.in/Training/api/download-pdf/${theory.file!}',
                           onProgress: (fileName, progress) {
                             isDownloading = true;
-                            CSnackBar.showSnackBar(
-                                context, 'Your File is downloading');
+                            CSnackBar.showSnackBar(context,
+                                'Your File is downloading ${progress.toStringAsFixed(2)}%');
                           },
                           onDownloadCompleted: (path) {
                             isDownloading = false;
                             CSnackBar.showSuccessSnackBar(
-                                context, "DownLoad Completed");
+                                context, "Download Completed");
                           },
                           onDownloadError: (errorMessage) {
+                            log(errorMessage);
                             isDownloading = false;
                             CSnackBar.showErrorSnackBar(context, errorMessage);
                           },
                         );
+                        // FileDownloader.downloadFile(
+                        // url:
+                        //     'http://axnoldigitalsolutions.in/Training/files/material/1717653608sample pdf.pdf',
+                        // onProgress: (name, progress) {
+                        //   // setState(() {
+                        //   //   _progress = progress;
+                        //   // });
+                        //   print('progress');
+                        // },
+                        // onDownloadCompleted: (value) {
+                        //   print('path  $value ');
+                        //   // setState(() {
+                        //   //   _progress = null;
+                        //   // });
+                        // });
                       },
                       child: const CustomText(
                         text: 'Download Pdf',

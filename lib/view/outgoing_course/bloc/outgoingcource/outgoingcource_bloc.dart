@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shreeiraeducation/controller/cources/cources_controller.dart';
@@ -39,11 +41,13 @@ class OutgoingcourceBloc
   void _onGeFilteredtAllCourse(
       GetFilterCourcesEvent event, Emitter<OutgoingcourceState> emit) async {
     emit(const GetOutgoingcourceLoadingState());
+    log(event.priceType);
+    // log(event.);
     final res = await _controller.getFilteredCourse(
       categoryId: event.categoryId,
       subCategoryId: event.subCategoryId,
       priceType: event.priceType,
-      sortBy: event.priceType,
+      sortBy: event.sortBy,
     );
     try {
       if (res['response'] == 'success') {

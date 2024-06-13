@@ -17,6 +17,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<AddToCartEvent>(_onAddToCart);
     on<GetCartCourseEvent>(_onGetCartCourse);
     on<DeleteCartCourseEvent>(_onDeleteCartCourse);
+    on<CourseCheckOutEvent>(_onCheckOutCourse);
   }
   void _onAddToCart(AddToCartEvent event, Emitter<CartState> emit) async {
     emit(AddCartLoadingState());
@@ -68,6 +69,18 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       emit(DeleteCartCourseSuccessState());
     } else {
       emit(DeleteCartCourseFailedState());
+    }
+  }
+  void _onCheckOutCourse(
+      CourseCheckOutEvent event, Emitter<CartState> emit) async {
+    emit(CourseCheckOutLoadingState());
+    final res = await _controller.courseCheckOut();
+
+    if (res['response'] == 'success') {
+      courseInCart = false;
+      emit(CourseCheckOutSuccessState());
+    } else {
+      emit(CourseCheckOutFailedState());
     }
   }
 }

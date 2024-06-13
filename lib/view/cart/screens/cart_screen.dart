@@ -26,15 +26,15 @@ class CartScreen extends StatelessWidget {
           text: "Cart",
           color: whiteColor,
         ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.search,
-              color: whiteColor,
-            ),
-          )
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {},
+        //     icon: const Icon(
+        //       Icons.search,
+        //       color: whiteColor,
+        //     ),
+        //   )
+        // ],
       ),
       body: BlocConsumer<CartBloc, CartState>(
         listener: (context, state) {
@@ -86,7 +86,7 @@ class CartScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            CartBottomCardWidget(size: size)
+                            CartBottomCardWidget(size: size, course: state.course[0],)
                           ],
                         )
                 ],
@@ -110,7 +110,7 @@ class CartScreen extends StatelessWidget {
                             child: Text('Cart Is Empty')),
                       ),
                     ),
-                    CartBottomCardWidget(size: size)
+                    CartBottomCardWidget(size: size , course: null,)
                   ],
                 )
               ],

@@ -9,8 +9,10 @@ class CShimmerEffect extends StatelessWidget {
     required this.height,
     this.radius = 15,
     this.color,
-    this.baseColor = const Color.fromARGB(148, 255, 255, 253),
-    this.highlightColor = const Color.fromARGB(255, 233, 225, 162),
+    // this.baseColor = const Color.fromARGB(148, 255, 255, 253),
+    this.baseColor = const Color.fromARGB(255, 224, 224, 224),
+    this.highlightColor = const Color.fromARGB(251, 245, 245, 245),
+    // this.highlightColor = const Color.fromARGB(255, 233, 225, 162),
   });
   final double width, height, radius;
   final Color? color, baseColor, highlightColor;

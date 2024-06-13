@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shreeiraeducation/models/categories/categories_model.dart';
@@ -198,11 +200,14 @@ class _FilterDrawerWidgetState extends State<FilterDrawerWidget> {
           width: double.infinity,
           child: ElevatedButton(
             onPressed: () {
+              log(sortByValue);
+              log(priceTypeValue);
               context.read<OutgoingcourceBloc>().add(GetFilterCourcesEvent(
-                  subCategoryId: widget.subCategory.id.toString(),
-                  categoryId: widget.category.id.toString(),
-                  sortBy: sortByValue,
-                  priceType: priceTypeValue));
+                    subCategoryId: widget.subCategory.id.toString(),
+                    categoryId: widget.category.id.toString(),
+                    sortBy: sortByValue,
+                    priceType: priceTypeValue,
+                  ));
               Navigator.pop(context);
             },
             style: ElevatedButton.styleFrom(
